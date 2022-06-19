@@ -1,8 +1,18 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
 
-app.get('/', function (req, res) {
-  res.send('Hello World')
-})
+const Blockchain = require('./blockchain');
 
-app.listen(3000)
+const bitcoin = new Blockchain();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
+
+app.get('/blockchain', function (req, res) {
+  res.send(bitcoin);
+});
+
+app.listen(3000,()=>{
+    console.log("Server started listening on port 3000...")
+});
